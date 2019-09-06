@@ -40,15 +40,7 @@ public class SalvoController {
   private Map<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
     Map<String, Object> dto = new LinkedHashMap<String, Object>();
     dto.put("id", gamePlayer.getId());
-    dto.put("player", makePlayerDTO(gamePlayer.getPlayer()));
-    return dto;
-  }
-
-  // Formato de salida para los objetos Player
-  private Map<String, Object> makePlayerDTO(Player player) {
-    Map<String, Object> dto = new LinkedHashMap<String, Object>();
-    dto.put("id", player.getId());
-    dto.put("email", player.getUsername());
+    dto.put("player", gamePlayer.getPlayer().toDTO());
     return dto;
   }
 

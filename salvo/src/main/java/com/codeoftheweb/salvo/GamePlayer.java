@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -58,6 +60,14 @@ public class GamePlayer {
 
   public Set<Ship> getShips(){
     return ships;
+  }
+
+  // Salida DTO para los objetos GamePlayer
+  private Map<String, Object> toDTO() {
+    Map<String, Object> dto = new LinkedHashMap<String, Object>();
+    dto.put("id", this.id);
+    dto.put("player", this.player.toDTO());
+    return dto;
   }
 
 }
