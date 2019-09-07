@@ -3,6 +3,8 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -48,6 +50,14 @@ import java.util.Set;
 
   public Set<String> getLocations(){
     return locations;
+  }
+
+  // Salida DTO para los objetos Ship
+  public Map<String, Object> toDTO() {
+    Map<String, Object> dto = new LinkedHashMap<>();
+    dto.put("type", this.shipType);
+    dto.put("locations", this.locations);
+    return dto;
   }
 
 }

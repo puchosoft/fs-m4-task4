@@ -63,8 +63,8 @@ public class GamePlayer {
   }
 
   // Salida DTO para los objetos GamePlayer
-  private Map<String, Object> toDTO() {
-    Map<String, Object> dto = new LinkedHashMap<String, Object>();
+  public Map<String, Object> toDTO() {
+    Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.id);
     dto.put("player", this.player.toDTO());
     return dto;
