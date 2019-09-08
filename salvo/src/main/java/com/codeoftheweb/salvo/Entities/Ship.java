@@ -1,11 +1,9 @@
 package com.codeoftheweb.salvo.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Ship {
@@ -30,10 +28,10 @@ public class Ship {
   public Ship(){
   }
 
-  public Ship(String shipType, GamePlayer gamePlayer, Set<String> locations){
+  public Ship(String shipType, GamePlayer gamePlayer, String[] locations){
     this.shipType = shipType;
     this.gamePlayer = gamePlayer;
-    this.locations = locations;
+    this.locations = new HashSet<>(Arrays.asList(locations));
   }
 
   public long getId() {

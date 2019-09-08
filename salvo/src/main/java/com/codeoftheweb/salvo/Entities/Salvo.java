@@ -3,6 +3,7 @@ package com.codeoftheweb.salvo.Entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,12 @@ public class Salvo {
   private Set<String> locations = new HashSet<>();
 
   public Salvo(){
+  }
+
+  public Salvo(GamePlayer gamePlayer, long turn, String[] locations){
+    this.gamePlayer = gamePlayer;
+    this.turn = turn;
+    this.locations = new HashSet<>(Arrays.asList(locations));
   }
 
   public long getId() {
