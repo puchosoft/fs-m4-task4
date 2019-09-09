@@ -2,10 +2,12 @@ $(function(){
 
   columns = ['1','2','3','4','5','6','7','8','9','10'];
   rows = ['A','B','C','D','E','F','G','H','I','J'];
-  gridLocation = Array();
+  you-ship-visibility = Array();
+  enemy-salvo-visibility = Array();
 
   for(i=0;i<10;i++){
-    gridLocation.push([0,0,0,0,0,0,0,0,0,0]);
+    you-ship-visibility.push([0,0,0,0,0,0,0,0,0,0]);
+    enemy-salvo-visibility.push([0,0,0,0,0,0,0,0,0,0]);
   }
 
   function showShipGrid(ships){
@@ -14,7 +16,7 @@ $(function(){
       s.locations.forEach(l => {
         row = l.slice(0,1).charCodeAt(0) - 'A'.charCodeAt(0);
         col = l.slice(1)-1;
-        gridLocation[row][col] = 1;
+        you-ship-visibility[row][col] = 1;
       });
     });
 
@@ -24,7 +26,7 @@ $(function(){
       tr+="<th class='py-1 border border-success'>" + c + "</th>";
     });
     tr+="</tr>";
-    $('#table-headers').html(tr);
+    $('#you-headers').html(tr);
 
     // Muestra cada fila de la grilla
     tr = "";
@@ -32,7 +34,7 @@ $(function(){
       tr+= "<tr>";
       tr+= "<td class='py-1 border border-success'>" + r + "</td>";
       columns.forEach((c, cix) => {
-        var visibilidad = (gridLocation[rix][cix]?'block':'none');
+        var visibilidad = (you-ship-visibility[rix][cix]?'block':'none');
         tr+= '\
           <td class="p-0 w-2 border border-success">\
             <div class="py-2 badge badge-info border border-dark d-'+ visibilidad +'">\
@@ -41,15 +43,16 @@ $(function(){
       });
       tr+= "</tr>";
     });
-    $('#table-rows').html(tr);
+    $('#you-rows').html(tr);
   }
 
   //Muestra la informacion de los Players
   function showGameInfo(id, gamePlayers){
     you = (gamePlayers[0].id == id)?gamePlayers[0].player.email:gamePlayers[1].player.email;
-    other = (gamePlayers[0].id == id)?gamePlayers[1].player.email:gamePlayers[0].player.email;
-    h4 = you + '(you) vs ' + other;
-    $('#game-info').html(h4);
+    enemy = (gamePlayers[0].id == id)?gamePlayers[1].player.email:gamePlayers[0].player.email;
+    h4 = 'You: ' + you;
+    $('#you-info').html('You: ' + you);
+    $('#enemy-info').html('Enemy: ' + enemy);
   }
 
   function loadData(){
