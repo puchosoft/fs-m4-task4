@@ -3,10 +3,11 @@ package com.codeoftheweb.salvo.Entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Entity
 public class GamePlayer {
@@ -63,11 +64,15 @@ public class GamePlayer {
   }
 
   public Set<Ship> getShips(){
-    return this.ships;
+    return this.ships.stream()
+        .sorted((s1,s2) -> (int)(s1.getId() - s2.getId()))
+        .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
-  public Set<Salvo> getSalvoes(){
-    return this.salvoes;
+  public ArrayList<Salvo> getSalvoes(){
+    return (ArrayList<Salvo>) this.salvoes.stream()
+        .sorted((s1,s2) -> (int)(s1.getTurn() - s2.getTurn()))
+        .collect(toList());
   }
 
   // Salida DTO para los objetos GamePlayer
@@ -75,6 +80,17 @@ public class GamePlayer {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.id);
     dto.put("player", this.player.toDTO());
+    return dto;
+  }
+
+  public Map<String, Object> getSalvoDTO() {
+    Map<String, Object> dto = new LinkedHashMap<>();
+    dto.put(Long.toString(this.player.getId()),
+        this.getSalvoes()
+            .stream()
+            .map(s -> s.toDTO())
+            .collect(toSet())
+    );
     return dto;
   }
 

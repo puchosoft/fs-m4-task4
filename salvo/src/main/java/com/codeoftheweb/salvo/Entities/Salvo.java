@@ -3,9 +3,7 @@ package com.codeoftheweb.salvo.Entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Salvo {
@@ -52,5 +50,11 @@ public class Salvo {
     return this.locations;
   }
 
+  // Salida DTO para los objetos Salvo
+  public Map<String, Object> toDTO() {
+    Map<String, Object> dto = new LinkedHashMap<>();
+    dto.put(Long.toString(this.turn),this.locations);
+    return dto;
+  }
 
 }

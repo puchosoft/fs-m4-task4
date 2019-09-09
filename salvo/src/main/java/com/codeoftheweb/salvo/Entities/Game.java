@@ -4,8 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.*;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 @Entity
 public class Game {
@@ -39,12 +38,16 @@ public class Game {
     return this.id;
   }
 
-  public List<Player> getPlayers() {
-    return gamePlayers.stream().map(gp -> gp.getPlayer()).collect(toList());
+  public Set<Player> getPlayers() {
+    return this.getGamePlayers().stream()
+        .map(gp -> gp.getPlayer()).collect(Collectors.toSet());
   }
 
   public Set<GamePlayer> getGamePlayers(){
-    return gamePlayers;
+    return this.gamePlayers
+        .stream()
+        .sorted((gp1,gp2) -> (int)(gp1.getId() - gp2.getId()))
+        .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   // Salida DTO para los objetos Game
@@ -52,7 +55,9 @@ public class Game {
     Map<String, Object> dto = new LinkedHashMap<>();
     dto.put("id", this.id);
     dto.put("created", this.creationDate);
-    dto.put("gamePlayers", this.gamePlayers.stream().map(gp -> gp.toDTO()));
+    dto.put("gamePlayers", this.getGamePlayers()
+        .stream()
+        .map(gp -> gp.toDTO()));
     return dto;
   }
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,10 +34,19 @@ public class SalvoController {
   // Genera un JSON con la informacion de un game especifico en la URL /api/game_view/nn
   @RequestMapping("/game_view/{gamePlayerId}")
   public Map<String, Object> getGameView(@PathVariable long gamePlayerId) {
-    GamePlayer gp = gpRepository.getOne(gamePlayerId);
-    Map<String, Object> game = gp.getGame().toDTO();
-    game.put("ships", gp.getShips().stream().map(s -> s.toDTO()));
-    return game;
+    GamePlayer gamePlayer = gpRepository.getOne(gamePlayerId);
+    Map<String, Object> gameDTO = gamePlayer.getGame().toDTO();
+
+    gameDTO.put("ships", gamePlayer.getShips()
+        .stream()
+        .map(s -> s.toDTO())
+    );
+
+    gameDTO.put("salvoes", gamePlayer.getGame().getGamePlayers()
+        .stream()
+        .map(gp -> gp.getSalvoDTO())
+    );
+    return gameDTO;
   }
 
 }
