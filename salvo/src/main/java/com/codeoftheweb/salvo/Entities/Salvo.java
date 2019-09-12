@@ -53,7 +53,8 @@ public class Salvo {
   // Salida DTO para los objetos Salvo
   public Map<String, Object> toDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
-    dto.put(Long.toString(this.turn),this.locations);
+    dto.put("turn",this.turn);
+    dto.put("shots",this.locations);
     return dto;
   }
 

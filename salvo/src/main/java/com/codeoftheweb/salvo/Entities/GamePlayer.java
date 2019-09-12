@@ -83,13 +83,13 @@ public class GamePlayer {
     return dto;
   }
 
-  public Map<String, Object> getSalvoDTO() {
+  public Map<String, Object> toSalvoDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
-    dto.put(Long.toString(this.player.getId()),
-        this.getSalvoes()
-            .stream()
-            .map(s -> s.toDTO())
-            .collect(toSet())
+    dto.put("playerID", this.player.getId());
+    dto.put("turns", this.getSalvoes()
+      .stream()
+      .map(s -> s.toDTO())
+      .collect(toSet())
     );
     return dto;
   }

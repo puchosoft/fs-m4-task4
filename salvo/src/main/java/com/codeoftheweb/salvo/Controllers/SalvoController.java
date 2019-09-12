@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @RestController
 @RequestMapping("/api") // Todos los controladores cuelgan de /api
@@ -44,7 +43,8 @@ public class SalvoController {
 
     gameDTO.put("salvoes", gamePlayer.getGame().getGamePlayers()
         .stream()
-        .map(gp -> gp.getSalvoDTO())
+        .map(gp -> gp.toSalvoDTO())
+        .collect(toSet())
     );
     return gameDTO;
   }
